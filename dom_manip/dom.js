@@ -21,9 +21,24 @@
 // var newTitle=document.getElementsByClassName('title');
 // newTitle[0].style.fontWeight='bold';
 // newTitle[0].style.color='green';
-var li=document.getElementsByTagName('li');
-li[1].textContent='Hello 2';
-li[2].style.backgroundColor='green';
-for(var i=0;i<li.length;i++){
-    li[i].style.fontWeight='bold';
+// var li=document.getElementsByTagName('li');
+// li[1].textContent='Hello 2';
+// li[2].style.backgroundColor='green';
+// for(var i=0;i<li.length;i++){
+//     li[i].style.fontWeight='bold';
+// }
+var header=document.querySelector('#main-header');
+header.style.borderBottom='solid 4px #ccc';
+var item=document.querySelector('.list-group-item');
+item.style.color='red';
+var secondItem=document.querySelector('.list-group-item:nth-child(2)');
+secondItem.style.backgroundColor='green';
+var thirdItem=document.querySelector('.list-group-item:nth-child(3)');
+thirdItem.style.display='none';
+var listMain=document.querySelectorAll('.list-group-item');
+listMain[1].style.color='green';
+var odd=document.querySelectorAll('li:nth-child(odd)');
+for(var i=0;i<odd.length;i=i+2){
+    odd[i].style.backgroundColor='green';
 }
+
