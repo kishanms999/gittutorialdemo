@@ -8,16 +8,26 @@
             <button>Submit</button>
         </form>
         <script>
+            unlis=document.createElement('ul');
+            unlis.setAttribute('id','listofitems');
+            // body=document.getElementsByTagName('body');
+            document.body.appendChild(unlis);
             function saveToLocalStorage(event){
                 event.preventDefault();
                 const name=event.target.username.value;
                 const email=event.target.emailId.value;
                 let userDet={
-                    username:name,
-                    useremail:email
+                    name,
+                    email
                 }
                 let userDet_serialized=JSON.stringify(userDet);
-                localStorage.setItem('userdetails',userDet_serialized);
+                localStorage.setItem(email,userDet_serialized);
+                li=document.createElement('li');
+                li.appendChild(document.createTextNode(name));
+                li.appendChild(document.createTextNode('-'));
+                li.appendChild(document.createTextNode(email));
+                unlis.appendChild(li);
+                
                 
             }
         </script>
