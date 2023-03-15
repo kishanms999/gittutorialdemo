@@ -1,0 +1,25 @@
+<html>
+    <body>
+        <form onsubmit="saveToLocalStorage(event)" >
+            <label>Name</label>
+            <input type="text" name="username" required>
+            <label>E-mail</label>
+            <input type="email" name="emailId" required>
+            <button>Submit</button>
+        </form>
+        <script>
+            function saveToLocalStorage(event){
+                event.preventDefault();
+                const name=event.target.username.value;
+                const email=event.target.emailId.value;
+                let userDet={
+                    username:name,
+                    useremail:email
+                }
+                let userDet_serialized=JSON.stringify(userDet);
+                localStorage.setItem('userdetails',userDet_serialized);
+                
+            }
+        </script>
+    </body>
+</html>
