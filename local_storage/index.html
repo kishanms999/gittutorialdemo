@@ -12,6 +12,7 @@
             unlis.setAttribute('id','listofitems');
             // body=document.getElementsByTagName('body');
             document.body.appendChild(unlis);
+            unlis.addEventListener('click',removeItem);
             function saveToLocalStorage(event){
                 event.preventDefault();
                 const name=event.target.username.value;
@@ -22,14 +23,27 @@
                 }
                 let userDet_serialized=JSON.stringify(userDet);
                 localStorage.setItem(email,userDet_serialized);
-                li=document.createElement('li');
+                var li=document.createElement('li');
+                var deleteBtn=document.createElement('button');
+                deleteBtn.setAttribute('id','delete-btn');
+                deleteBtn.appendChild(document.createTextNode('Delete'));
                 li.appendChild(document.createTextNode(name));
                 li.appendChild(document.createTextNode('-'));
                 li.appendChild(document.createTextNode(email));
+                li.appendChild(deleteBtn);
                 unlis.appendChild(li);
                 
                 
             }
+            function removeItem(e){
+                if(e.target.id==='delete-btn'){
+                    var li=e.target.parentElement;
+                    unlis.removeChild(li);
+                }
+            }    
+        
+            
+        
         </script>
     </body>
 </html>
