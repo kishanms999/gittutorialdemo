@@ -2,9 +2,9 @@
     <body>
         <form onsubmit="saveToLocalStorage(event)" >
             <label>Name</label>
-            <input type="text" name="username" required>
+            <input type="text" name="username" id="username" required>
             <label>E-mail</label>
-            <input type="email" name="emailId" required>
+            <input type="email" name="emailId" id="emailid" required>
             <button>Submit</button>
         </form>
         <script>
@@ -33,11 +33,20 @@
                 li.textContent=userDet.name+'-'+userDet.email;
                 var deleteBtn=document.createElement('button');
                 deleteBtn.appendChild(document.createTextNode('Delete'));
+                var editBtn=document.createElement('button');
+                editBtn.appendChild(document.createTextNode('Edit'));
                 deleteBtn.onclick=() => {
                     localStorage.removeItem(userDet.email);
                     unlis.removeChild(li);
                 }
+                editBtn.onclick=() => {
+                    document.getElementById('username').value=userDet.name;
+                    document.getElementById('emailid').value=userDet.email;
+                    localStorage.removeItem(userDet.email);
+                    unlis.removeChild(li);
+                }
                 li.appendChild(deleteBtn);
+                li.appendChild(editBtn);
                 unlis.appendChild(li);       
             }
             
