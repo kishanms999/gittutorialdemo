@@ -7,12 +7,13 @@
             <input type="email" name="emailId" id="emailid" required>
             <button>Submit</button>
         </form>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+        <ul id="ListOfUsers"></ul>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.js"></script>
         <script>
-            unlis=document.createElement('ul');
-            unlis.setAttribute('id','listofitems');
-            // body=document.getElementsByTagName('body');
-            document.body.appendChild(unlis);
+            // unlis=document.createElement('ul');
+            // unlis.setAttribute('id','listofitems');
+            // // body=document.getElementsByTagName('body');
+            // document.body.appendChild(unlis);
             
             function saveToLocalStorage(event){
                 event.preventDefault();
@@ -22,8 +23,8 @@
                     name,
                     email
                 }
-                axios.post("https://crudcrud.com/api/87a793cd10a6482b9e339cb51aa398f2/appointmentData",userDet).then((response)=>{
-                    showUserOnScreen(response.data)
+                axios.post("https://crudcrud.com/api/5a1b44753cdf491fbb3d490296865980/appointmentData",userDet).then((response)=>{
+                    showNewUserOnScreen(response.data)
                     console.log(response)
                 })
                 .catch((err)=>{
@@ -31,13 +32,35 @@
                     console.log(err)
                 })
 
-                
-                
                 //localStorage.setItem(email,JSON.stringify(userDet));
                 //showUserOnScreen(userDet)
                 
                 
                 
+            } 
+            window.addEventListener("DOMContentLoaded", () => {
+                    axios.get('https://crudcrud.com/api/5a1b44753cdf491fbb3d490296865980/appointmentData').then((response)=>{
+                        console.log(response)
+                        for(var i=0;i<response.data.length;i++){
+                                showNewUserOnScreen(response.data[i])
+                            }
+                        }).catch((error)=>{
+                            console.log(error)
+                        })
+                        
+                            
+                        
+                })
+                
+                
+            function showNewUserOnScreen(user){
+                console.log(user)
+                parentNode=document.getElementById('ListOfUsers');
+                childHTML=`<li id=${user.email}>${user.name}-${user.email}
+                    <button>Delete User</button>
+                    <button>Edit User</button>
+                    </li>`
+                parentNode.innerHTML=parentNode.innerHTML+childHTML    
             }
             function showUserOnScreen(userDet){
                 var li=document.createElement('li');
