@@ -63,7 +63,7 @@
                 const parentNode=document.getElementById('ListOfUsers');
                 const childHTML=`<li id=${user._id}>${user.name}-${user.email}
                     <button onclick=deleteUser('${user._id}')>Delete User</button>
-                    <button>Edit User</button>
+                    <button onclick=editUserDetails('${user.email}','${user.name}','${user._id}')>Edit User</button>
                     </li>`
                 parentNode.innerHTML=parentNode.innerHTML+childHTML    
             }
@@ -82,6 +82,11 @@
                 if(childNodeToBeDeleted){
                     parentNode.removeChild(childNodeToBeDeleted)
                 }
+            }
+            function editUserDetails(emailId,name,userId){
+                document.getElementById('emailid').value=emailId;
+                document.getElementById('username').value=name;
+                deleteUser(userId)
             }
             // function showUserOnScreen(userDet){
             //     var li=document.createElement('li');
