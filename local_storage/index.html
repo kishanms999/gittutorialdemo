@@ -54,36 +54,57 @@
                 
                 
             function showNewUserOnScreen(user){
-                console.log(user)
-                parentNode=document.getElementById('ListOfUsers');
-                childHTML=`<li id=${user.email}>${user.name}-${user.email}
-                    <button>Delete User</button>
+                document.getElementById('emailid').value='';
+                document.getElementById('username').value='';
+                if(localStorage.getItem(user.email)!=null){
+                    removeUserFromScreen(user.email)
+                }
+                
+                const parentNode=document.getElementById('ListOfUsers');
+                const childHTML=`<li id=${user._id}>${user.name}-${user.email}
+                    <button onclick=deleteUser('${user._id}')>Delete User</button>
                     <button>Edit User</button>
                     </li>`
                 parentNode.innerHTML=parentNode.innerHTML+childHTML    
             }
-            function showUserOnScreen(userDet){
-                var li=document.createElement('li');
-                li.textContent=userDet.name+'-'+userDet.email;
-                var deleteBtn=document.createElement('button');
-                deleteBtn.appendChild(document.createTextNode('Delete'));
-                var editBtn=document.createElement('button');
-                editBtn.appendChild(document.createTextNode('Edit'));
-                deleteBtn.onclick=() => {
-                    localStorage.removeItem(userDet.email);
-                    unlis.removeChild(li);
-                }
-                editBtn.onclick=() => {
-                    document.getElementById('username').value=userDet.name;
-                    document.getElementById('emailid').value=userDet.email;
-                    localStorage.removeItem(userDet.email);
-                    unlis.removeChild(li);
-                }
-                li.appendChild(deleteBtn);
-                li.appendChild(editBtn);
-                unlis.appendChild(li);
-                       
+            function deleteUser(userId){
+                axios.delete(`https://crudcrud.com/api/5a1b44753cdf491fbb3d490296865980/appointmentData/${userId}`)
+                    .then((response)=> {
+                        removeUserFromScreen(userId)
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })
             }
+            function removeUserFromScreen(userId){
+                const parentNode=document.getElementById('ListOfUsers');
+                const childNodeToBeDeleted=document.getElementById(userId);
+                if(childNodeToBeDeleted){
+                    parentNode.removeChild(childNodeToBeDeleted)
+                }
+            }
+            // function showUserOnScreen(userDet){
+            //     var li=document.createElement('li');
+            //     li.textContent=userDet.name+'-'+userDet.email;
+            //     var deleteBtn=document.createElement('button');
+            //     deleteBtn.appendChild(document.createTextNode('Delete'));
+            //     var editBtn=document.createElement('button');
+            //     editBtn.appendChild(document.createTextNode('Edit'));
+            //     deleteBtn.onclick=() => {
+            //         localStorage.removeItem(userDet.email);
+            //         unlis.removeChild(li);
+            //     }
+            //     editBtn.onclick=() => {
+            //         document.getElementById('username').value=userDet.name;
+            //         document.getElementById('emailid').value=userDet.email;
+            //         localStorage.removeItem(userDet.email);
+            //         unlis.removeChild(li);
+            //     }
+            //     li.appendChild(deleteBtn);
+            //     li.appendChild(editBtn);
+            //     unlis.appendChild(li);
+                       
+            // }
             
         
             
