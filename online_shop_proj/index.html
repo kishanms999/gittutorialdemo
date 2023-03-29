@@ -1,0 +1,108 @@
+<html>
+    <body>
+        <form onsubmit="saveToStorage(event)" >
+            <label>Selling Price</label>
+            <input type="number" name="sellprice" id="sellprice" required>
+            <label>Product Name:</label>
+            <input type="text" name="proname" id="proname" required>
+            <button>Add Product</button>
+        </form>
+        <h3>Products</h3>
+        <ul id="ListOfProducts"></ul>
+        <h4 id="totalval"></h4>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.js"></script>
+        <script>
+            let total=0;
+            
+            function saveToStorage(event){
+                event.preventDefault();
+                const sell=event.target.sellprice.value;
+                const prod=event.target.proname.value;
+                let userDet={
+                    sell,
+                    prod
+                }
+                axios.post("https://crudcrud.com/api/0b37f134777d4b5199a7267a8d223844/productData",userDet).then((response)=>{
+                    showNewUserOnScreen(response.data)
+                    //console.log(response)
+                })
+                .catch((err)=>{
+                    document.body.innerHTML=document.body.innerHTML+"<h4>Something went wrong</h4>"
+                    console.log(err)
+                })
+                total=total+Number(sell);
+                showTotalValue(total);
+
+                
+                
+                
+                
+            } 
+            window.addEventListener("DOMContentLoaded", () => {
+                    axios.get('https://crudcrud.com/api/0b37f134777d4b5199a7267a8d223844/productData').then((response)=>{
+                        //console.log(response)
+                        total=0;
+                        //let ListProd=document.getElementById('ListOfProducts');
+                        for(var i=0;i<response.data.length;i++){
+                                showNewUserOnScreen(response.data[i])
+                                //console.log(response.data[i].sell);
+                                 total=total+Number(response.data[i].sell);
+                            }
+                        showTotalValue(total)    
+                        //let totVal=`<h4>Total Value Worth of Products: Rs.${total}</h4>`
+                        //ListProd.innerHTML=ListProd.innerHTML+totVal;        
+                        }).catch((error)=>{
+                            console.log(error)
+                        })
+                        
+                            
+                        
+                })
+                
+                
+            function showNewUserOnScreen(user){
+                document.getElementById('sellprice').value='';
+                document.getElementById('proname').value='';
+                if(localStorage.getItem(user.prod)!=null){
+                    removeUserFromScreen(user.prod)
+                }
+                
+                const parentNode=document.getElementById('ListOfProducts');
+                const childHTML=`<li id=${user._id}>${user.sell}-${user.prod}
+                    <button onclick=deleteProd('${user._id}','${user.sell}')>Delete Product</button>
+                    
+                    </li>`
+                parentNode.innerHTML=parentNode.innerHTML+childHTML
+                // total=total+Number(user.sell);
+                // showTotalValue(total)    
+            }
+            function deleteProd(userId,sell){
+                axios.delete(`https://crudcrud.com/api/0b37f134777d4b5199a7267a8d223844/productData/${userId}`)
+                    .then((response)=> {
+                        removeUserFromScreen(userId)
+                    })
+                    .catch((err)=>{
+                        console.log(err)
+                    })
+                total=total-Number(sell);
+                showTotalValue(total);    
+            }
+            function removeUserFromScreen(userId){
+                const parentNode=document.getElementById('ListOfProducts');
+                const childNodeToBeDeleted=document.getElementById(userId);
+                if(childNodeToBeDeleted){
+                    parentNode.removeChild(childNodeToBeDeleted)
+                }
+            }
+            function showTotalValue(value){
+                let headerTot=document.getElementById('totalval');
+                //headerTot.appendChild(document.createTextNode(`Total Value Worth of Products: Rs.${value}`));
+                headerTot.innerText=`Total Value Worth of Products: Rs.${value}`;
+            }
+            
+        
+            
+        
+        </script>
+    </body>
+</html>
